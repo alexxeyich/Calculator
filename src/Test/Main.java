@@ -7,6 +7,7 @@ package Test;
 4) Калькулятор работет только с целыми числами.
 5) Калькулятор работает только с римскими или только с арабскими числами.
 6) При вводе римских чисел ответ долже быть в римских числах, при вводе арабских – ответ арабскими.
+7) При вводе цифр не из одной системы счисление, программа завершает свою работу методом исключения
 */
 
 import java.util.*;
@@ -39,9 +40,9 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Введите числа в формате: a+b, a-b, a*b, a/b");
-        Input expression = new Input(); // Ввод данных пользователем
+        Input expression = new Input(); // Ввод данных Пользователем
 
-        Pattern roman = Pattern.compile("^I\\W|^II\\W|^III\\W|^IV\\W|^V\\W|^VI\\W|^VII\\W|^VIII\\W|^IX\\W|^X\\W|\\WI$|\\WII$|\\WIII$|\\WIV$|\\WV$|\\WVI$|\\WVII$|\\WVIII$|\\WIX$|\\WX$");
+        Pattern roman = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
         Matcher Roman = roman.matcher(expression.input);
 
         Pattern arabic = Pattern.compile("^10\\W[1-9]$|^[1-9]\\W10$|^10\\W+10$|^[1-9]\\W[1-9]$");
@@ -78,53 +79,146 @@ public class Main {
             if (Addition.find() == true) { // Операция сложения
                 String[] result = expression.input.split("\\+");
 
-                if (converter.isRoman(result[0]) == converter.isRoman(result[1])) { // Условие соответсвия двух чисел одной системе счисления
-                    int a = main.romanToInt(result[0]);
-                    int b = main.romanToInt(result[1]);
+                Pattern A = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher a = A.matcher(result[0]);
 
-                    if (a <= 10 & a > 0 & b <= 10 & b > 0) {
-                        System.out.println(main.intToRoman(a + b)); // Результат
+                Pattern B = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher b = B.matcher(result[1]);
+
+                if (a.find() != true) { // Исключение для 1-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
                     }
-                } else System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
+                }
+
+                if (b.find() != true) { // Исключение для 2-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
+                    }
+                }
+
+                int x = main.romanToInt(result[0]);
+                int y = main.romanToInt(result[1]);
+
+                if (x <= 10 & x > 0 & y <= 10 & y > 0) { // Соответствие введеных Пользователем цифр диапозону [1;10]
+                    System.out.println(main.intToRoman(x + y)); // Результат
+
+                } else System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
 
             } else if (Subtraction.find() == true) { // Операция вычитания
                 String[] result = expression.input.split("\\-");
 
-                if (converter.isRoman(result[0]) == converter.isRoman(result[1])) { // Условие соответсвия двух чисел одной системе счисления
-                    int a = main.romanToInt(result[0]);
-                    int b = main.romanToInt(result[1]);
+                Pattern A = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher a = A.matcher(result[0]);
 
-                    if (a <= 10 & a > 0 & b <= 10 & b > 0) {
-                        System.out.println(main.intToRoman(a - b)); // Результат
+                Pattern B = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher b = B.matcher(result[1]);
+
+                if (a.find() != true) { // Исключение для 1-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
                     }
-                } else System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
+                }
+
+                if (b.find() != true) { // Исключение для 2-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
+                    }
+                }
+
+                int x = main.romanToInt(result[0]);
+                int y = main.romanToInt(result[1]);
+
+                if (x <= 10 & x > 0 & y <= 10 & y > 0) { // Соответствие введеных Пользователем цифр диапозону [1;10]
+                    System.out.println(main.intToRoman(x - y)); // Результат
+
+                } else System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
 
             } else if (Multiplication.find() == true) { // Операция умножения
                 String[] result = expression.input.split("\\*");
 
-                if (converter.isRoman(result[0]) == converter.isRoman(result[1])) { // Условие соответсвия двух чисел одной системе счисления
-                    int a = main.romanToInt(result[0]);
-                    int b = main.romanToInt(result[1]);
+                Pattern A = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher a = A.matcher(result[0]);
 
-                    if (a <= 10 & a > 0 & b <= 10 & b > 0) {
-                        System.out.println(main.intToRoman(a * b)); // Результат
+                Pattern B = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher b = B.matcher(result[1]);
+
+                if (a.find() != true) { // Исключение для 1-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
                     }
-                } else System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
+                }
+
+                if (b.find() != true) { // Исключение для 2-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
+                    }
+                }
+
+                int x = main.romanToInt(result[0]);
+                int y = main.romanToInt(result[1]);
+
+                if (x <= 10 & x > 0 & y <= 10 & y > 0) { // Соответствие введеных Пользователем цифр диапозону [1;10]
+                    System.out.println(main.intToRoman(x * y)); // Результат
+
+                } else System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
 
             } else if (Division.find() == true) { // Операция деления
                 String[] result = expression.input.split("\\/");
 
-                if (converter.isRoman(result[0]) == converter.isRoman(result[1])) { // Условие соответсвия двух чисел одной системе счисления
-                    int a = main.romanToInt(result[0]);
-                    int b = main.romanToInt(result[1]);
+                Pattern A = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher a = A.matcher(result[0]);
 
-                    if (a <= 10 & a > 0 & b <= 10 & b > 0) {
-                        System.out.println(main.intToRoman(a / b)); // Результат
+                Pattern B = Pattern.compile("I|II|III|IV|V|VI|VII|VIII|IX|X");
+                Matcher b = B.matcher(result[1]);
+
+                if (a.find() != true) { // Исключение для 1-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
                     }
-                } else System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
+                }
+
+                if (b.find() != true) { // Исключение для 2-го числа
+                    try {
+                        throw new Exception();
+                    } catch (Exception Error) {
+                        System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
+                        System.exit(0);
+                    }
+                }
+
+                int x = main.romanToInt(result[0]);
+                int y = main.romanToInt(result[1]);
+
+                if (x <= 10 & x > 0 & y <= 10 & y > 0) { // Соответствие введеных Пользователем цифр диапозону [1;10]
+                    System.out.println(main.intToRoman(x / y)); // Результат
+
+                } else System.out.println("Калькулятор принимает только числа из одной системы счисления в диапозоне [1;10]");
             }
 
-        } else System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
+        } else
+            System.out.println("Калькулятор принимает только только ДВА ЧИСЛА из одной системы счисления в диапозоне [1;10]");
     }
 
     static class Input { // Конструктор ввода данных пользователем
@@ -198,10 +292,6 @@ public class Main {
             map.put('C',100);
             map.put('D',500);
             map.put('M',1000);
-        }
-
-        public boolean isRoman(String number) {
-            return map.containsKey(number.charAt(0));
         }
     }
 }
